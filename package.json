@@ -1,0 +1,9 @@
+{
+  "name": "iphoto-web",
+  "version": "0.0.1",
+  "description": "It is a web application where users will can save his photos and manage them in albums",
+  "main": "index.js",
+  "author": "matheusdoedev <matheusdoe.dev@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
