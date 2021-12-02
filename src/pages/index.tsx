@@ -1,5 +1,7 @@
+import { Intro } from '~/components';
+
 function Home(): JSX.Element {
-  return <h1>Hello World</h1>;
+  return <Intro />;
 }
 
 export default Home;
