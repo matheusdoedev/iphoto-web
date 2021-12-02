@@ -1,0 +1,11 @@
+@import '~/styles/objects/container';
+
+.Intro {
+  background: no-repeat url('../../../public/assets/images/iphoto-bg.jpg');
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.IntroContainer {
+  @extend .Container;
+}
