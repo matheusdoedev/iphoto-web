@@ -1,0 +1,33 @@
+@import '~/styles/settings/colors';
+@import '~/styles/settings/gaps';
+
+@import '~/styles/objects/container';
+
+.Footer {
+  padding: $lg 0;
+  background: $black;
+}
+
+.FooterContainer {
+  @extend .Container;
+}
+
+.FooterContent {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.FooterNav {
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
+.FooterNavMenu {
+  display: flex;
+  flex-direction: column;
+  row-gap: $xs;
+}
+
+.FooterNavMenuLink {
+  color: $white;
+}
