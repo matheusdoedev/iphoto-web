@@ -1,0 +1,57 @@
+@import '~/styles/settings/colors';
+@import '~/styles/settings/gaps';
+
+@import '~/styles/objects/container';
+
+.HowItWorks {
+  background: $white;
+  padding: $xl 0;
+}
+
+.HowItWorksContainer {
+  @extend .Container;
+}
+
+.HowItWorksTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: $black;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: $black;
+    opacity: 0.2;
+    margin: $xs auto $lg auto;
+  }
+}
+
+.HowItWorksContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: $sm;
+}
+
+.HowItWorksItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: $sm;
+  border: 4px solid #025d8f44;
+  border-radius: 30px;
+  padding: $lg $md;
+}
+
+.HowItWorksItemTitle {
+  text-align: center;
+  color: $black;
+}
+
+.HowItWorksItemText {
+  text-align: center;
+  color: $black;
+}
