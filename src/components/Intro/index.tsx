@@ -1,4 +1,4 @@
-import { Header } from '~/components';
+import { Button, Header } from '~/components';
 
 import styles from './styles.module.scss';
 
@@ -7,15 +7,15 @@ function Intro(): JSX.Element {
     <section className={styles.Intro}>
       <div className={styles.IntroContainer}>
         <Header />
-        <section className="Intro__content">
-          <h1 className="Intro__title">
+        <section className={styles.IntroContent}>
+          <h1 className={styles.IntroTitle}>
             A place to save te key momments of your life
           </h1>
-          <p className="Intro__text">
+          <p className={styles.IntroText}>
             Iphoto have the porpose to be a place where you can save your photos
             and create albuns with them
           </p>
-          <button type="button">Get Started</button>
+          <Button>Get Started</Button>
         </section>
       </div>
     </section>
