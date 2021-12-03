@@ -42,6 +42,10 @@ function Footer(): JSX.Element {
             layout="fixed"
           />
         </div>
+        <p className={styles.FooterCopy}>
+          Iphoto 2021 @ Open source project created and maintain by
+          matheusdoedev
+        </p>
       </div>
     </footer>
   );
