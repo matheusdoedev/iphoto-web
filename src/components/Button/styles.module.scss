@@ -1,0 +1,14 @@
+@import '~/styles/settings/colors';
+@import '~/styles/settings/gaps';
+@import '~/styles/settings/fonts';
+
+.Button {
+  padding: $xs $sm;
+  background: $primary-color;
+  border: none;
+  color: $white;
+  font-family: $primary-font;
+  font-weight: 500;
+  max-width: 200px;
+  width: 100%;
+}
