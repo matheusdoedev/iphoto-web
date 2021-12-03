@@ -8,7 +8,7 @@ function Button({ children, ...props }: IButtonProps): JSX.Element {
   return (
     <button
       type="button"
-      className={`inline-flex items-center justify-center border border-transparent rounded-md ${styles.Button}`}
+      className={`btn btn-primary ${styles.Button}`}
       {...props}
     >
       {children}
