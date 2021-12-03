@@ -19,7 +19,7 @@ function SignIn(): JSX.Element {
         <h1 className={styles.SignInTitle}>Sign in with your account</h1>
         <form className={styles.SignInForm}>
           <Input name="email" label="E-mail" placeholder="name@example.com" />
-          <Input type="password" name="password" label="Senha" />
+          <Input type="password" name="password" label="Password" />
           <Button type="submit" style={{ maxWidth: '100%' }}>
             Sign in
           </Button>
