@@ -1,0 +1,44 @@
+@import '~/styles/settings/colors';
+@import '~/styles/settings/gaps';
+
+@import '~/styles/objects/container';
+
+.CreateAlbum {
+  background: $white;
+}
+
+.CreateAlbumContainer {
+  @extend .Container;
+
+  min-height: 100vh;
+}
+
+.CreateAlbumContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: $xl;
+}
+
+.CreateAlbumPageTitleBlock {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: $lg;
+}
+
+.CreateAlbumTitle {
+  color: $black;
+}
+
+.CreateAlbumText {
+  color: $black;
+}
+
+.CreateAlbumForm {
+  display: flex;
+  flex-direction: column;
+  row-gap: $sm;
+  max-width: 417px;
+  width: 100%;
+}
