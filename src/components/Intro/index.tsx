@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useRouter } from 'next/router';
 
 import { Button, Header } from '~/components';
@@ -30,4 +31,4 @@ function Intro(): JSX.Element {
   );
 }
 
-export default Intro;
+export default memo(Intro);

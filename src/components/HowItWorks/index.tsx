@@ -1,4 +1,4 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, memo } from 'react';
 import Image from 'next/image';
 
 import styles from './styles.module.scss';
@@ -63,4 +63,4 @@ function HowItWorks(): JSX.Element {
   );
 }
 
-export default HowItWorks;
+export default memo(HowItWorks);
