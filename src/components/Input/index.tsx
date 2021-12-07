@@ -4,15 +4,17 @@ import styles from './styles.module.scss';
 
 interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
-  label: string;
+  label?: string;
 }
 
 function Input({ name, label, ...props }: IInputProps): JSX.Element {
   return (
     <div className={styles.InputBlock}>
-      <label htmlFor={name} className="form-label">
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={name} className="form-label">
+          {label}
+        </label>
+      )}
       <input
         type="email"
         className={`form-control ${styles.InputField}`}
@@ -24,5 +26,9 @@ function Input({ name, label, ...props }: IInputProps): JSX.Element {
     </div>
   );
 }
+
+Input.defaultProps = {
+  label: '',
+};
 
 export default Input;
