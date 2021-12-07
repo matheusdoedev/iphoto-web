@@ -11,3 +11,18 @@
 .UserIndexContainer {
   @extend .Container;
 }
+
+.UserSearchBar {
+  display: grid;
+  grid-template-columns: 4fr 1fr 1fr;
+  align-items: center;
+  gap: $sm;
+  margin: $lg 0 $xl 0;
+}
+
+.UserPhotos {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: $sm;
+  margin-bottom: $xl;
+}
