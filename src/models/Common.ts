@@ -11,7 +11,7 @@ export type Logo = Omit<IMedia, 'type'>;
 export type UpdatedLogo = Pick<Logo, 'name'> & Partial<Omit<Logo, 'name'>>;
 
 export interface IDatabaseFields {
-  id: number;
+  id: string;
   created_at: string;
   updated_at: string;
 }
