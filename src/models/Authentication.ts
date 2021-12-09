@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface IAuthenticationCredentials {
   email: string;
   password: string;
@@ -26,11 +28,12 @@ export interface ISignUpResponse {
 export interface IAuthenticationContext {
   user: ISignUpResponseUser | undefined;
   isAuthenticated: boolean;
-  signin(credentials: IAuthenticationCredentials): Promise<string | undefined>;
+  signin(credentials: IAuthenticationCredentials): Promise<void>;
   logout(): void;
 }
 
-export interface IAuthenticationState {
-  token: string;
-  user: ISignUpResponseUser;
+export interface IAuthenticationState extends ISignUpResponse {}
+
+export interface IAuthenticationProvider {
+  children: ReactNode;
 }
