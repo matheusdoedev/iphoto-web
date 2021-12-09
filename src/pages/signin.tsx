@@ -1,19 +1,34 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { toast } from 'react-toastify';
+
 import { AnchorLink, Button, Input } from '~/components';
+import { useAuth } from '~/contexts/AuthenticationContext';
+import { IAuthenticationCredentials } from '~/models/Authentication';
 
 import styles from '~/styles/pages/signin.module.scss';
 
 function SignIn(): JSX.Element {
+  const [formData, setFormData] = useState<IAuthenticationCredentials>(
+    {} as IAuthenticationCredentials,
+  );
+  const { signin } = useAuth();
   const router = useRouter();
 
-  const handleSubmitSignIn = (event: FormEvent): void => {
+  const handleSubmitSignIn = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
 
-    router.push('/user');
+    try {
+      await signin(formData);
+
+      router.push('/user');
+      toast.success('User logged.');
+    } catch (error) {
+      toast.error('Error on signin, try again.');
+    }
   };
 
   return (
@@ -28,8 +43,24 @@ function SignIn(): JSX.Element {
         />
         <h1 className={styles.SignInTitle}>Sign in with your account</h1>
         <form className={styles.SignInForm} onSubmit={handleSubmitSignIn}>
-          <Input name="email" label="E-mail" placeholder="name@example.com" />
-          <Input type="password" name="password" label="Password" />
+          <Input
+            name="email"
+            label="E-mail"
+            placeholder="name@example.com"
+            value={formData.email}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
+          />
+          <Input
+            type="password"
+            name="password"
+            label="Password"
+            value={formData.password}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
+          />
           <Button type="submit" style={{ maxWidth: '100%' }}>
             Sign in
           </Button>
