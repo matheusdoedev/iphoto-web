@@ -5,5 +5,7 @@ export { default as Footer } from './Footer';
 export { default as Header } from './Header';
 export { default as HowItWorks } from './HowItWorks';
 export { default as Input } from './Input';
+export { default as InputMedia } from './InputMedia';
 export { default as Intro } from './Intro';
 export { default as Nav } from './Nav';
+export { default as Select } from './Select';
