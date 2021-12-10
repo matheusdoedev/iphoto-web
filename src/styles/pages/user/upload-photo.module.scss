@@ -17,13 +17,20 @@
   flex-direction: column;
   align-items: center;
   row-gap: 0.8rem;
+  margin-bottom: $sm;
   justify-content: center;
   border: 1px dashed $black;
   border-radius: 0.4rem;
-  width: 638px;
-  height: 534px;
+  width: 1280px;
+  height: 720px;
 
   &:hover {
     cursor: pointer;
   }
+}
+
+.UploadPhotoImageUploaded {
+  max-width: 1280px;
+  max-height: 720px;
+  width: 100%;
 }

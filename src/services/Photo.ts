@@ -1,7 +1,7 @@
 import { AxiosPromise } from 'axios';
 
 import api from '~/config/api';
-import { IPhoto, IUpdatePhotoDto, IUpdatePhotoImageDto } from '~/models/Photo';
+import { IPhoto, IUpdatePhotoDto } from '~/models/Photo';
 
 class PhotoService {
   private baseUrl = 'photos';
@@ -25,10 +25,7 @@ class PhotoService {
     return api.put(`${this.baseUrl}/${photoId}`, data);
   }
 
-  updatePhotoImageById(
-    photoId: string,
-    data: IUpdatePhotoImageDto,
-  ): AxiosPromise<IPhoto> {
+  updatePhotoImageById(photoId: string, data: FormData): AxiosPromise<IPhoto> {
     return api.put(`${this.baseUrl}/image/${photoId}`, data);
   }
 
