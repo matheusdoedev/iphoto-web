@@ -9,3 +9,12 @@ export interface IPhoto extends IDatabaseFields {
   user: IUser;
   album: IAlbum;
 }
+
+export interface IUpdatePhotoDto {
+  title: string;
+  albumId: string;
+}
+
+export interface IUpdatePhotoImageDto {
+  image: File;
+}
