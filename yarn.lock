@@ -2191,6 +2191,11 @@ object-keys@^1.0.12, object-keys@^1.1.1:
   resolved "https://registry.npmjs.org/object-keys/-/object-keys-1.1.1.tgz"
   integrity sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==
 
+object-to-formdata@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/object-to-formdata/-/object-to-formdata-4.2.2.tgz#a41e8d0dee4e40a882dfe963717f92b24da3f4f9"
+  integrity sha512-TM+ekhYfeDrUM+DuYLh222y6El4BM32ZwGYZ+zRU7vkvmhF970prnjkMgGBqPbsqfgP4pfAIqCB8cdX2o90eHw==
+
 object.assign@^4.1.2:
   version "4.1.2"
   resolved "https://registry.npmjs.org/object.assign/-/object.assign-4.1.2.tgz"
