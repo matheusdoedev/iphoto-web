@@ -16,7 +16,7 @@ function Input({ name, label, ...props }: IInputProps): JSX.Element {
         </label>
       )}
       <input
-        type="email"
+        type="text"
         className={`form-control ${styles.InputField}`}
         id={name}
         name={name}

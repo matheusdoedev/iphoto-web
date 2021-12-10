@@ -9,6 +9,18 @@
   color: $white;
   font-family: $primary-font;
   font-weight: 500;
+}
+
+.standard {
   max-width: 200px;
   width: 100%;
+}
+
+.small {
+  max-width: auto;
+  width: auto;
+}
+
+.fullSize {
+  max-width: 100%;
 }

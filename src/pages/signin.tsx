@@ -72,7 +72,7 @@ function SignIn(): JSX.Element {
               setFormData({ ...formData, password: e.target.value })
             }
           />
-          <Button type="submit" style={{ maxWidth: '100%' }}>
+          <Button type="submit" size="fullSize">
             Sign in
           </Button>
           <span className={styles.SignInFormOr}>or</span>
