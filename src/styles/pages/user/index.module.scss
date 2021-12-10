@@ -23,8 +23,22 @@
 .UserPhotos {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: $sm;
+  justify-content: first baseline;
   margin-bottom: $xl;
+}
+
+.UserPhoto {
+  position: relative;
+}
+
+.UserPhotoDeleteIcon {
+  position: absolute;
+  top: $xs;
+  right: $xs;
+  padding: 0.4rem;
+  background: $primary-color;
+  border-radius: 4px;
+  border: none;
 }
 
 .NoPhotosFound {
