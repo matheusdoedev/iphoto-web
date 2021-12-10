@@ -1,12 +1,17 @@
+import { useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+
 import { FiPlus } from 'react-icons/fi';
 
 import { Button, Footer, Header, Input } from '~/components';
 
 import styles from '~/styles/pages/user/index.module.scss';
+import { useAuthGuard } from '~/hooks';
 
 function UserIndex(): JSX.Element {
+  useAuthGuard();
+
   const router = useRouter();
 
   const handleNavigateToCreateAlbum = (): void => {

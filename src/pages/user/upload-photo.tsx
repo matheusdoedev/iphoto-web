@@ -1,14 +1,17 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import Image from 'next/image';
 import { useState } from 'react';
+import Image from 'next/image';
 
 import { Button, Input, InputMedia, Select } from '~/components';
+import { useAuthGuard } from '~/hooks';
 import { InternalPageLayout } from '~/layouts';
 import { IMedia, UpdatedLogo } from '~/models/Common';
 
 import styles from '~/styles/pages/user/upload-photo.module.scss';
 
 function UploadPhoto(): JSX.Element {
+  useAuthGuard();
+
   const [uploadPhoto, setUploadPhoto] = useState<UpdatedLogo>();
 
   const handleChangeUploadPhoto = (fileObject: IMedia): void => {

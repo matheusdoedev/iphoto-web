@@ -1,9 +1,12 @@
 import { Button, Input } from '~/components';
+import { useAuthGuard } from '~/hooks';
 import { InternalPageLayout } from '~/layouts';
 
 import styles from '~/styles/pages/user/create-album.module.scss';
 
 function CreateAlbum(): JSX.Element {
+  useAuthGuard();
+
   return (
     <InternalPageLayout
       pageTitle="Create new album"
