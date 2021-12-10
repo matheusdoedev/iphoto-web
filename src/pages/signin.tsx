@@ -4,12 +4,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 import { AnchorLink, Button, Input } from '~/components';
 import { useAuth } from '~/contexts/AuthenticationContext';
 import { IAuthenticationCredentials } from '~/models/Authentication';
 
 import styles from '~/styles/pages/signin.module.scss';
+import { handleYupValidationError } from '~/utils/functions';
 
 function SignIn(): JSX.Element {
   const [formData, setFormData] = useState<IAuthenticationCredentials>(
@@ -21,13 +23,22 @@ function SignIn(): JSX.Element {
   const handleSubmitSignIn = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
 
+    const schema = Yup.object().shape({
+      email: Yup.string().email().required('Email required.'),
+      password: Yup.string().required('Password required.'),
+    });
+
     try {
+      await schema.validate(formData, {
+        abortEarly: false,
+      });
+
       await signin(formData);
 
       router.push('/user');
       toast.success('User logged.');
     } catch (error) {
-      toast.error('Error on signin, try again.');
+      handleYupValidationError(error as Error);
     }
   };
 
