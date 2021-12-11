@@ -7,14 +7,14 @@ import { useAuth } from '~/contexts/AuthenticationContext';
 
 function useAuthGuard(): void {
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, userPreloaded } = useAuth();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated && userPreloaded) {
       router.push('/signin');
       toast.success('It must be logged to access this feature.');
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, userPreloaded]);
 }
 
 export default useAuthGuard;

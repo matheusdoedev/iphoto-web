@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useRef,
   useMemo,
+  useLayoutEffect,
 } from 'react';
 import { toast } from 'react-toastify';
 
@@ -26,6 +27,7 @@ const AuthContext = createContext<IAuthenticationContext>(
 function AuthProvider({ children }: IAuthenticationProvider): JSX.Element {
   const [userCredentials, setUserCredentials] =
     useState<IAuthenticationState>();
+  const [userPreloaded, setUserPreloaded] = useState(false);
 
   const PREFIX = useRef('@Iphoto');
 
@@ -50,9 +52,11 @@ function AuthProvider({ children }: IAuthenticationProvider): JSX.Element {
       api.defaults.headers.common.Authorization = `Bearer ${token}`;
 
       setUserCredentials({ user, token });
+      setUserPreloaded(true);
       return;
     }
 
+    setUserPreloaded(true);
     setUserCredentials({} as IAuthenticationState);
   }, []);
 
@@ -93,17 +97,18 @@ function AuthProvider({ children }: IAuthenticationProvider): JSX.Element {
     [authenticationService, logout, userCredentials],
   );
 
-  const AuthContextProviderDataMemo = useMemo(
+  const AuthContextProviderDataMemo: IAuthenticationContext = useMemo(
     () => ({
       user: userCredentials ? userCredentials.user : undefined,
       isAuthenticated: !!userCredentials,
       signin,
       logout,
+      userPreloaded,
     }),
-    [logout, signin, userCredentials],
+    [logout, signin, userCredentials, userPreloaded],
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     handlePreloadUserCredentials();
   }, [handlePreloadUserCredentials]);
 

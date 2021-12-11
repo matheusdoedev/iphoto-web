@@ -30,6 +30,7 @@ export interface IAuthenticationContext {
   isAuthenticated: boolean;
   signin(credentials: IAuthenticationCredentials): Promise<void>;
   logout(): void;
+  userPreloaded: boolean;
 }
 
 export interface IAuthenticationState extends ISignUpResponse {}

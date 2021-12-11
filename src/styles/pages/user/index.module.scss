@@ -23,7 +23,7 @@
 .UserPhotos {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  justify-content: first baseline;
+  gap: $sm;
   margin-bottom: $xl;
 }
 
