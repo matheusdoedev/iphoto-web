@@ -73,32 +73,32 @@ function UploadPhoto(): JSX.Element {
         pageTitle="Upload a new photo"
         pageDescription="Save a new photo"
       >
-        <form className={styles.UploadPhotoForm} onSubmit={handleCreatePhoto}>
-          <label htmlFor="upload_photo" className={styles.UploadPhotoField}>
-            {!uploadPhoto ? (
-              <>
-                <Image
-                  src="/assets/icons/camera-black.svg"
-                  alt="Upload de Imagem"
-                  width={53}
-                  height={49}
-                  layout="fixed"
-                />
-                <p>Upload new photo</p>
-              </>
-            ) : (
-              <img
-                src={uploadPhoto.name}
-                alt={formData.title ?? uploadPhoto.name}
-                className={styles.UploadPhotoImageUploaded}
+        <label htmlFor="upload_photo" className={styles.UploadPhotoField}>
+          {!uploadPhoto ? (
+            <>
+              <Image
+                src="/assets/icons/camera-black.svg"
+                alt="Upload de Imagem"
+                width={60}
+                height={49}
+                layout="fixed"
               />
-            )}
-            <InputMedia
-              name="upload_photo"
-              mediaType="image"
-              onChangeMedia={handleChangeUploadPhoto}
+              <p>Upload new photo</p>
+            </>
+          ) : (
+            <img
+              src={uploadPhoto.name}
+              alt={formData.title ?? uploadPhoto.name}
+              className={styles.UploadPhotoImageUploaded}
             />
-          </label>
+          )}
+          <InputMedia
+            name="upload_photo"
+            mediaType="image"
+            onChangeMedia={handleChangeUploadPhoto}
+          />
+        </label>
+        <form className={styles.UploadPhotoForm} onSubmit={handleCreatePhoto}>
           <Input
             name="title"
             label="Photo title*"
@@ -118,7 +118,7 @@ function UploadPhoto(): JSX.Element {
               setFormData({ ...formData, albumId: e.target.value })
             }
           />
-          <Button type="submit" style={{ maxWidth: '100%' }}>
+          <Button type="submit" size="fullSize">
             Save photo
           </Button>
         </form>

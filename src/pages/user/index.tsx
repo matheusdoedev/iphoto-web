@@ -82,7 +82,6 @@ function UserIndex(): JSX.Element {
                 width={556.4}
                 height={355.5}
                 layout="intrinsic"
-                className={styles.UserPhotoImage}
               />
             </div>
           ))}

@@ -1,6 +1,8 @@
 @import '~/styles/settings/colors';
 @import '~/styles/settings/gaps';
 
+@import '~/styles/tools/breakpoints';
+
 @import '~/styles/objects/container';
 
 .Wrapper {
@@ -19,6 +21,11 @@
   align-items: center;
   padding-top: $xl;
   padding-bottom: $xl;
+
+  @media (max-width: $medium) {
+    padding-top: $lg;
+    padding-bottom: $lg;
+  }
 }
 
 .PageTitleBlock {
@@ -26,6 +33,10 @@
   flex-direction: column;
   text-align: center;
   margin-bottom: $lg;
+
+  @media (max-width: $medium) {
+    margin-bottom: $md;
+  }
 }
 
 .Title {
