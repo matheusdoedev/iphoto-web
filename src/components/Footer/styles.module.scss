@@ -1,6 +1,8 @@
 @import '~/styles/settings/colors';
 @import '~/styles/settings/gaps';
 
+@import '~/styles/tools/breakpoints';
+
 @import '~/styles/objects/container';
 
 .Footer {
@@ -15,21 +17,45 @@
 .FooterContent {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
+
+  @media (max-width: $small) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: $md;
+  }
+
+  @media (max-width: $medium) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .FooterNav {
   grid-column-start: 3;
   grid-column-end: 4;
+
+  @media (max-width: $medium) {
+    grid-column-start: 2;
+    grid-column-end: 3;
+  }
 }
 
 .FooterNavMenu {
   display: flex;
   flex-direction: column;
   row-gap: $xs;
+
+  @media (max-width: $small) {
+    align-items: center;
+  }
 }
 
 .FooterNavMenuLink {
   color: $white;
+
+  @media (max-width: $small) {
+    text-align: center;
+  }
 }
 
 .FooterCopy {

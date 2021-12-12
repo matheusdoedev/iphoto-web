@@ -1,12 +1,18 @@
 @import '~/styles/settings/colors';
 @import '~/styles/settings/gaps';
 
+@import '~/styles/tools/breakpoints';
+
 @import '~/styles/objects/container';
 
 .Intro {
   background: no-repeat url('../../../public/assets/images/iphoto-bg.jpg');
   background-size: cover;
   min-height: 100vh;
+
+  @media (max-width: $medium) {
+    min-height: auto;
+  }
 }
 
 .IntroContainer {
@@ -19,6 +25,16 @@
   align-items: flex-start;
   justify-content: center;
   min-height: 80vh;
+
+  @media (max-width: $small) {
+    align-items: center;
+    padding: $lg 0;
+  }
+
+  @media (max-width: $medium) {
+    padding: $xl 0;
+    min-height: auto;
+  }
 }
 
 .IntroTitle {
@@ -29,10 +45,29 @@
   max-width: 748px;
   color: $white;
   margin-bottom: $md;
+
+  @media (max-width: $small) {
+    text-align: center;
+    max-width: 100%;
+  }
+
+  @media (max-width: $medium) {
+    font-size: 3.6rem;
+    max-width: 30em;
+  }
 }
 
 .IntroText {
   font-size: 2.4rem;
   color: $white;
   margin-bottom: $md;
+
+  @media (max-width: $small) {
+    text-align: center;
+    max-width: 100%;
+  }
+
+  @media (max-width: $medium) {
+    font-size: 1.6rem;
+  }
 }
