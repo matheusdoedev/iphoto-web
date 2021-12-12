@@ -10,3 +10,4 @@ export { default as Intro } from './Intro';
 export { default as Modal } from './Modal';
 export { default as Nav } from './Nav';
 export { default as Select } from './Select';
+export { default as Seo } from './Seo';
