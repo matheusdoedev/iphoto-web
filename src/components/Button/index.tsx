@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { ButtonHTMLAttributes, CSSProperties } from 'react';
 
 import styles from './styles.module.scss';
@@ -15,23 +16,13 @@ function Button({
   secondary,
   ...props
 }: IButtonProps): JSX.Element {
-  const withStyles = (): CSSProperties => {
-    if (size === 'small') {
-      return { maxWidth: 'auto', width: 'auto' };
-    }
-
-    if (size === 'fullSize') {
-      return { maxWidth: '100%', width: '100%' };
-    }
-
-    return { maxWidth: '200px', width: '100%' };
-  };
-
   return (
     <button
       type="button"
       style={{
-        ...withStyles(),
+        maxWidth:
+          size === 'fullSize' ? '100%' : size === 'small' ? 'auto' : '200px',
+        width: size === 'small' ? 'auto' : '100%',
         background: secondary ? '#fff' : '',
         color: secondary ? '#025d8f' : '',
       }}

@@ -28,6 +28,10 @@
   max-width: 638px;
   width: 100%;
 
+  @media (max-width: $medium) {
+    max-width: 438px;
+  }
+
   @media (max-width: $small) {
     justify-content: center;
     min-height: auto;

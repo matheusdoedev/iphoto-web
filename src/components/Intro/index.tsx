@@ -24,7 +24,9 @@ function Intro(): JSX.Element {
             Iphoto have the porpose to be a place where you can save your photos
             and create albuns with them
           </p>
-          <Button onClick={handleNavigateToSignIn}>Get Started</Button>
+          <Button onClick={handleNavigateToSignIn} size="small">
+            Get Started
+          </Button>
         </section>
       </div>
     </section>
