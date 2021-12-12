@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 import { FiPlus, FiTrash2 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
@@ -75,7 +76,14 @@ function UserIndex(): JSX.Element {
               >
                 <FiTrash2 size={24} color="#fff7ed" />
               </button>
-              <img src={photo.url} alt={photo.title} />
+              <Image
+                src={photo.url}
+                alt={photo.title}
+                width={556.4}
+                height={355.5}
+                layout="intrinsic"
+                className={styles.UserPhotoImage}
+              />
             </div>
           ))}
         </section>
@@ -111,6 +119,7 @@ function UserIndex(): JSX.Element {
               name="search"
               placeholder="Search photos and albums by name"
               aria-label="Search By Name"
+              containerStyle={styles.UserSearchInput}
             />
             <Button size="fullSize" onClick={handleNavigateToUploadPhoto}>
               <FiPlus size={16} color="FFF7ED" />
