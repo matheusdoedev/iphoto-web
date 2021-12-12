@@ -3,16 +3,15 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
-import { Button, Input } from '~/components';
-
+import { Button, Input, Seo } from '~/components';
 import { ISignUpDto } from '~/models/Authentication';
 import { useAuth } from '~/contexts/AuthenticationContext';
 import { AuthenticationService } from '~/services';
+import { handleYupValidationError } from '~/utils/functions';
 
 import styles from '~/styles/pages/signup.module.scss';
-import { handleYupValidationError } from '~/utils/functions';
-import { toast } from 'react-toastify';
 
 function SignUp(): JSX.Element {
   const [formData, setFormData] = useState<ISignUpDto>({} as ISignUpDto);
@@ -22,7 +21,7 @@ function SignUp(): JSX.Element {
   const { signin } = useAuth();
   const authService = new AuthenticationService();
 
-  const handleSubmitSignUp = async (event: FormEvent): void => {
+  const handleSubmitSignUp = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
 
     const schema = Yup.object().shape({
@@ -55,59 +54,64 @@ function SignUp(): JSX.Element {
   };
 
   return (
-    <section className={styles.SignUp}>
-      <div className={styles.SignUpContent}>
-        <Image
-          src="/assets/icons/iphoto-logo-black.svg"
-          alt="SignIn"
-          width={212}
-          height={58}
-          layout="fixed"
-        />
-        <h1 className={styles.SignUpTitle}>Create a account</h1>
-        <form className={styles.SignUpForm} onSubmit={handleSubmitSignUp}>
-          <Input
-            type="text"
-            name="name"
-            label="Name"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+    <>
+      <Seo title="Create your account" />
+      <section className={styles.SignUp}>
+        <div className={styles.SignUpContent}>
+          <Image
+            src="/assets/icons/iphoto-logo-black.svg"
+            alt="SignIn"
+            width={212}
+            height={58}
+            layout="fixed"
           />
-          <Input
-            type="email"
-            name="email"
-            label="Email"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-          />
-          <Input
-            type="password"
-            name="password"
-            label="Password"
-            value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-          />
-          <Input
-            type="password"
-            name="confirm_password"
-            label="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          <p className={styles.SignUpAdvise}>
-            In the account creation, you will be agree with the privacy poticies
-            of Iphoto.
-          </p>
-          <Button type="submit" style={{ maxWidth: '100%' }}>
-            Create account
-          </Button>
-        </form>
-      </div>
-    </section>
+          <h1 className={styles.SignUpTitle}>Create a account</h1>
+          <form className={styles.SignUpForm} onSubmit={handleSubmitSignUp}>
+            <Input
+              type="text"
+              name="name"
+              label="Name"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
+            />
+            <Input
+              type="email"
+              name="email"
+              label="Email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+            />
+            <Input
+              type="password"
+              name="password"
+              label="Password"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+            />
+            <Input
+              type="password"
+              name="confirm_password"
+              label="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <p className={styles.SignUpAdvise}>
+              In the account creation, you will be agree with the privacy
+              poticies of Iphoto.
+            </p>
+            <Button type="submit" style={{ maxWidth: '100%' }}>
+              Create account
+            </Button>
+          </form>
+        </div>
+      </section>
+    </>
   );
 }
 

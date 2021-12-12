@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { serialize } from 'object-to-formdata';
 import { toast } from 'react-toastify';
 
-import { Button, Input, InputMedia, Select } from '~/components';
+import { Button, Input, InputMedia, Select, Seo } from '~/components';
 import { useAuthGuard } from '~/hooks';
 import { InternalPageLayout } from '~/layouts';
 import { IMedia, UpdatedLogo } from '~/models/Common';
@@ -67,58 +67,63 @@ function UploadPhoto(): JSX.Element {
   };
 
   return (
-    <InternalPageLayout
-      pageTitle="Upload a new photo"
-      pageDescription="Save a new photo"
-    >
-      <form className={styles.UploadPhotoForm} onSubmit={handleCreatePhoto}>
-        <label htmlFor="upload_photo" className={styles.UploadPhotoField}>
-          {!uploadPhoto ? (
-            <>
-              <Image
-                src="/assets/icons/camera-black.svg"
-                alt="Upload de Imagem"
-                width={53}
-                height={49}
-                layout="fixed"
+    <>
+      <Seo title="Upload photo" />
+      <InternalPageLayout
+        pageTitle="Upload a new photo"
+        pageDescription="Save a new photo"
+      >
+        <form className={styles.UploadPhotoForm} onSubmit={handleCreatePhoto}>
+          <label htmlFor="upload_photo" className={styles.UploadPhotoField}>
+            {!uploadPhoto ? (
+              <>
+                <Image
+                  src="/assets/icons/camera-black.svg"
+                  alt="Upload de Imagem"
+                  width={53}
+                  height={49}
+                  layout="fixed"
+                />
+                <p>Upload new photo</p>
+              </>
+            ) : (
+              <img
+                src={uploadPhoto.name}
+                alt={formData.title ?? uploadPhoto.name}
+                className={styles.UploadPhotoImageUploaded}
               />
-              <p>Upload new photo</p>
-            </>
-          ) : (
-            <img
-              src={uploadPhoto.name}
-              alt={formData.title ?? uploadPhoto.name}
-              className={styles.UploadPhotoImageUploaded}
+            )}
+            <InputMedia
+              name="upload_photo"
+              mediaType="image"
+              onChangeMedia={handleChangeUploadPhoto}
             />
-          )}
-          <InputMedia
-            name="upload_photo"
-            mediaType="image"
-            onChangeMedia={handleChangeUploadPhoto}
+          </label>
+          <Input
+            name="title"
+            label="Photo title*"
+            id="title"
+            value={formData.title}
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
           />
-        </label>
-        <Input
-          name="title"
-          label="Photo title*"
-          id="title"
-          value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-        />
-        <Select
-          name="album"
-          label="Album"
-          id="album"
-          options={[]}
-          value={formData.albumId}
-          onChange={(e) =>
-            setFormData({ ...formData, albumId: e.target.value })
-          }
-        />
-        <Button type="submit" style={{ maxWidth: '100%' }}>
-          Save photo
-        </Button>
-      </form>
-    </InternalPageLayout>
+          <Select
+            name="album"
+            label="Album"
+            id="album"
+            options={[]}
+            value={formData.albumId}
+            onChange={(e) =>
+              setFormData({ ...formData, albumId: e.target.value })
+            }
+          />
+          <Button type="submit" style={{ maxWidth: '100%' }}>
+            Save photo
+          </Button>
+        </form>
+      </InternalPageLayout>
+    </>
   );
 }
 

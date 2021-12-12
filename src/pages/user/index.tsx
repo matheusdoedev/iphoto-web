@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { FiPlus, FiTrash2 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 
-import { Button, Footer, Header, Input, Modal } from '~/components';
+import { Button, Footer, Header, Input, Modal, Seo } from '~/components';
 import { useAuthGuard } from '~/hooks';
 import { PhotoService } from '~/services';
 
@@ -102,6 +102,7 @@ function UserIndex(): JSX.Element {
 
   return (
     <>
+      <Seo title="Index" />
       <section className={styles.UserIndex}>
         <div className={styles.UserIndexContainer}>
           <Header internalPage />
