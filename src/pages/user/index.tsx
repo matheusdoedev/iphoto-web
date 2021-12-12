@@ -79,7 +79,7 @@ function UserIndex(): JSX.Element {
         <section className={styles.UserPhotos}>
           {photos.data.map((photo) => (
             <div className={styles.UserPhoto}>
-              <button
+              {/* <button
                 type="button"
                 className={styles.UserPhotoDeleteIcon}
                 data-bs-toggle="modal"
@@ -87,7 +87,7 @@ function UserIndex(): JSX.Element {
                 onClick={() => handleOpenDeletePhotoModal(photo.id)}
               >
                 <FiTrash2 size={24} color="#fff7ed" />
-              </button>
+              </button> */}
               <Image
                 src={photo.url}
                 alt={photo.title}
@@ -130,7 +130,7 @@ function UserIndex(): JSX.Element {
       <section className={styles.UserIndex}>
         <div className={styles.UserIndexContainer}>
           <Header internalPage />
-          <section className={styles.UserSearchBar}>
+          {/* <section className={styles.UserSearchBar}>
             <Input
               name="search"
               placeholder="Search photos and albums by name"
@@ -145,7 +145,7 @@ function UserIndex(): JSX.Element {
               <FiPlus size={16} color="FFF7ED" />
               Add new album
             </Button>
-          </section>
+          </section> */}
           {PhotosMemo}
           {Number(photos.page) !== photos.lastPage && (
             <Button

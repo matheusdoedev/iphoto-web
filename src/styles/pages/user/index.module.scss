@@ -42,9 +42,11 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: $sm;
+  margin-top: $xl;
   margin-bottom: $xl;
 
   @media (max-width: $medium) {
+    margin-top: $lg;
     margin-bottom: $lg;
     grid-template-columns: 1fr 1fr;
   }
