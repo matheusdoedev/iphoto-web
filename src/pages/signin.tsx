@@ -9,9 +9,9 @@ import * as Yup from 'yup';
 import { AnchorLink, Button, Input, Seo } from '~/components';
 import { useAuth } from '~/contexts/AuthenticationContext';
 import { IAuthenticationCredentials } from '~/models/Authentication';
+import { handleYupValidationError } from '~/utils/functions';
 
 import styles from '~/styles/pages/signin.module.scss';
-import { handleYupValidationError } from '~/utils/functions';
 
 function SignIn(): JSX.Element {
   const [formData, setFormData] = useState<IAuthenticationCredentials>(

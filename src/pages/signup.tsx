@@ -105,7 +105,7 @@ function SignUp(): JSX.Element {
               In the account creation, you will be agree with the privacy
               poticies of Iphoto.
             </p>
-            <Button type="submit" style={{ maxWidth: '100%' }}>
+            <Button type="submit" style={{ maxWidth: '100%' }} size="fullSize">
               Create account
             </Button>
           </form>
