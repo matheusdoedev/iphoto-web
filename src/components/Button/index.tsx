@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { ButtonHTMLAttributes, CSSProperties } from 'react';
+import { ButtonHTMLAttributes } from 'react';
 
 import styles from './styles.module.scss';
 
@@ -14,6 +14,7 @@ function Button({
   children,
   size,
   secondary,
+  className,
   ...props
 }: IButtonProps): JSX.Element {
   return (
@@ -26,7 +27,7 @@ function Button({
         background: secondary ? '#fff' : '',
         color: secondary ? '#025d8f' : '',
       }}
-      className={`btn btn-primary ${styles.Button} ${size} `}
+      className={`btn btn-primary ${styles.Button} ${size} ${className} `}
       {...props}
     >
       {children}

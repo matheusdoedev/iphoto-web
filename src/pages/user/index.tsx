@@ -7,15 +7,25 @@ import { toast } from 'react-toastify';
 
 import { Button, Footer, Header, Input, Modal, Seo } from '~/components';
 import { useAuthGuard } from '~/hooks';
+import { IPhoto } from '~/models/Photo';
+import { IPageOptionsRequest, IPagination } from '~/models/Common';
 import { PhotoService } from '~/services';
 
 import styles from '~/styles/pages/user/index.module.scss';
-import { IPhoto } from '~/models/Photo';
 
 function UserIndex(): JSX.Element {
   useAuthGuard();
 
-  const [photos, setPhotos] = useState<IPhoto[]>();
+  const [photos, setPhotos] = useState<IPagination<IPhoto[]>>({
+    data: [],
+    lastPage: 0,
+    page: 1,
+    perPage: 1,
+    total: '0',
+  });
+  const [pageOptions, setPageOptions] = useState<IPageOptionsRequest>({
+    page: 1,
+  });
   const [confirmPhotoDeleteModal, setConfirmPhotoDeleteModal] = useState(false);
   const [photoId, setPhotoId] = useState('');
 
@@ -24,13 +34,15 @@ function UserIndex(): JSX.Element {
 
   const handleGetUserPhotos = useCallback(async (): Promise<void> => {
     try {
-      const response = await photoService.getUserPhotos().then((r) => r.data);
+      const response = await photoService
+        .getUserPhotos(pageOptions)
+        .then((r) => r.data);
 
       setPhotos(response);
     } catch (error) {
       toast.error((error as Error).message);
     }
-  }, [photoService]);
+  }, [pageOptions, photoService]);
 
   const handleNavigateToCreateAlbum = (): void => {
     router.push('/user/create-album');
@@ -63,9 +75,9 @@ function UserIndex(): JSX.Element {
 
   const PhotosMemo = useMemo(
     () =>
-      photos && photos.length > 0 ? (
+      photos && photos.data && photos.data.length > 0 ? (
         <section className={styles.UserPhotos}>
-          {photos.map((photo) => (
+          {photos.data.map((photo) => (
             <div className={styles.UserPhoto}>
               <button
                 type="button"
@@ -82,6 +94,7 @@ function UserIndex(): JSX.Element {
                 width={556.4}
                 height={355.5}
                 layout="intrinsic"
+                loading="lazy"
               />
             </div>
           ))}
@@ -102,6 +115,10 @@ function UserIndex(): JSX.Element {
       </Button>
     </>
   ));
+
+  const handleLoadMorePhotos = (): void => {
+    setPageOptions({ page: pageOptions.page + 1 });
+  };
 
   useEffect(() => {
     handleGetUserPhotos();
@@ -130,6 +147,14 @@ function UserIndex(): JSX.Element {
             </Button>
           </section>
           {PhotosMemo}
+          {Number(photos.page) !== photos.lastPage && (
+            <Button
+              className={styles.LoadMoreButton}
+              onClick={handleLoadMorePhotos}
+            >
+              Load more photos
+            </Button>
+          )}
         </div>
         <Footer />
       </section>

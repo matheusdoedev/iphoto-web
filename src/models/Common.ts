@@ -15,3 +15,16 @@ export interface IDatabaseFields {
   created_at: string;
   updated_at: string;
 }
+
+export interface IPageOptionsRequest {
+  page: number;
+  perPage?: number;
+}
+
+export interface IPagination<T> {
+  total?: string;
+  perPage?: number;
+  page?: number;
+  lastPage?: number;
+  data?: T;
+}

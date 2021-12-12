@@ -1,13 +1,25 @@
 import { AxiosPromise } from 'axios';
 
 import api from '~/config/api';
+import { IPageOptionsRequest, IPagination } from '~/models/Common';
 import { IPhoto, IUpdatePhotoDto } from '~/models/Photo';
 
 class PhotoService {
   private baseUrl = 'photos';
 
-  getUserPhotos(): AxiosPromise<IPhoto[]> {
-    return api.get(`${this.baseUrl}/user`);
+  private perPageDefault = 6;
+
+  getUserPhotos(
+    { page }: IPageOptionsRequest = {
+      page: 1,
+    },
+  ): AxiosPromise<IPagination<IPhoto[]>> {
+    return api.get(`${this.baseUrl}/user`, {
+      params: {
+        page,
+        perPage: this.perPageDefault,
+      },
+    });
   }
 
   getPhotoById(photoId: string): AxiosPromise<IPhoto> {

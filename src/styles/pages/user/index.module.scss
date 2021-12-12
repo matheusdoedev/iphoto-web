@@ -45,14 +45,24 @@
   margin-bottom: $xl;
 
   @media (max-width: $medium) {
-    grid-template-columns: 1fr 1fr;
     margin-bottom: $lg;
+    grid-template-columns: 1fr 1fr;
   }
 
   @media (max-width: $small) {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+}
+
+.LoadMoreButton {
+  margin-top: -64px;
+  margin-bottom: $xl;
+  align-self: center;
+
+  @media (max-width: $medium) {
+    margin-bottom: $lg;
   }
 }
 
@@ -74,5 +84,5 @@
   align-items: center;
   text-align: center;
   width: 100%;
-  padding-bottom: 32rem;
+  padding-bottom: 48rem;
 }
