@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
+import { FiArrowLeft } from 'react-icons/fi';
 
-import { Footer, Header } from '~/components';
+import { Footer, GoBackButton, Header } from '~/components';
 
 import styles from './styles.module.scss';
 
@@ -19,6 +20,7 @@ function InternalPageLayout({
     <section className={styles.Wrapper}>
       <div className={styles.Container}>
         <Header internalPage />
+        <GoBackButton />
         <section className={styles.Content}>
           <div className={styles.PageTitleBlock}>
             <h1 className={styles.Title}>{pageTitle}</h1>
