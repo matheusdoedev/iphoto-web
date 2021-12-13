@@ -1,0 +1,14 @@
+@import '~/styles/settings/colors';
+@import '~/styles/settings/gaps';
+
+@import '~/styles/tools/breakpoints';
+
+@import '~/styles/objects/container';
+
+.CreateAlbumForm {
+  display: flex;
+  flex-direction: column;
+  row-gap: $sm;
+  max-width: 417px;
+  width: 100%;
+}

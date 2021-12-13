@@ -1,0 +1,68 @@
+@import '~/styles/settings/colors';
+@import '~/styles/settings/gaps';
+
+@import '~/styles/tools/breakpoints';
+
+@import '~/styles/objects/container';
+
+.SignIn {
+  display: flex;
+  justify-content: center;
+  background: no-repeat url('../../../public/assets/images/signin-bg.jpg');
+  background-size: cover;
+  min-height: 100vh;
+
+  @media (max-width: $small) {
+    background: $white;
+    min-height: auto;
+  }
+}
+
+.SignInContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: $white;
+  min-height: 100vh;
+  max-width: 638px;
+  width: 100%;
+
+  @media (max-width: $small) {
+    justify-content: center;
+    min-height: auto;
+    padding: $lg 0;
+    max-width: 100%;
+  }
+}
+
+.SignInTitle {
+  margin-top: $lg;
+  margin-bottom: 4.8rem;
+  font-size: 3.6rem;
+  line-height: 1.15rem;
+  color: $black;
+
+  @media (max-width: $small) {
+    margin-top: $md;
+    font-size: 2.4rem;
+  }
+}
+
+.SignInForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: $sm;
+  max-width: 328px;
+  width: 100%;
+}
+
+.SignInFormOr {
+  color: $black;
+}
+
+.SignUpLink {
+  color: $black;
+  text-decoration: underline;
+}

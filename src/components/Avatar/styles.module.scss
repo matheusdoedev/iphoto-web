@@ -1,0 +1,8 @@
+@import '~/styles/settings/colors';
+
+.Avatar {
+  display: flex;
+  align-items: center;
+  column-gap: 0.8rem;
+  color: $black;
+}

@@ -1,0 +1,15 @@
+@import '~/styles/settings/colors';
+@import '~/styles/settings/gaps';
+
+.Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: $sm 0;
+  border-bottom: 1px solid #fff7ed44;
+}
+
+.HeaderIntern {
+  border-bottom: 1px solid #0e222244;
+}

@@ -1,0 +1,15 @@
+@import '~/styles/settings/colors';
+@import '~/styles/settings/gaps';
+@import '~/styles/settings/fonts';
+
+.InputBlock {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.8rem;
+  width: 100%;
+}
+
+.InputField {
+  padding: 1.2rem $sm;
+  background: $white;
+}

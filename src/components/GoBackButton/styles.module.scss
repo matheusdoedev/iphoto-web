@@ -1,0 +1,13 @@
+@import '~/styles/settings/colors';
+@import '~/styles/settings/gaps';
+
+.GoBackButton {
+  background: none;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  column-gap: 0.8rem;
+  color: $black;
+  margin-top: $xs;
+}
