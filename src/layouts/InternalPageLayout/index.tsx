@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { FiArrowLeft } from 'react-icons/fi';
 
 import { Footer, GoBackButton, Header } from '~/components';
 

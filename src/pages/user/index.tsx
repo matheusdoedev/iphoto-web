@@ -1,11 +1,9 @@
-import { useState, useEffect, useCallback, useMemo, memo } from 'react';
-import { useRouter } from 'next/router';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 
-import { FiPlus, FiTrash2 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 
-import { Button, Footer, Header, Input, Modal, Seo } from '~/components';
+import { Button, Footer, Header, Seo } from '~/components';
 import { useAuthGuard } from '~/hooks';
 import { IPhoto } from '~/models/Photo';
 import { IPageOptionsRequest, IPagination } from '~/models/Common';
@@ -26,11 +24,11 @@ function UserIndex(): JSX.Element {
   const [pageOptions, setPageOptions] = useState<IPageOptionsRequest>({
     page: 1,
   });
-  const [confirmPhotoDeleteModal, setConfirmPhotoDeleteModal] = useState(false);
-  const [photoId, setPhotoId] = useState('');
+  // const [confirmPhotoDeleteModal, setConfirmPhotoDeleteModal] = useState(false);
+  // const [photoId, setPhotoId] = useState('');
 
   const photoService = useMemo(() => new PhotoService(), []);
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleGetUserPhotos = useCallback(async (): Promise<void> => {
     try {
@@ -44,41 +42,41 @@ function UserIndex(): JSX.Element {
     }
   }, [pageOptions, photoService]);
 
-  const handleNavigateToCreateAlbum = (): void => {
-    router.push('/user/create-album');
-  };
+  // const handleNavigateToCreateAlbum = (): void => {
+  //   router.push('/user/create-album');
+  // };
 
-  const handleNavigateToUploadPhoto = (): void => {
-    router.push('/user/upload-photo');
-  };
+  // const handleNavigateToUploadPhoto = (): void => {
+  //   router.push('/user/upload-photo');
+  // };
 
-  const handleOpenDeletePhotoModal = (deletePhotoId: string): void => {
-    setPhotoId(deletePhotoId);
-    setConfirmPhotoDeleteModal(true);
-  };
+  // const handleOpenDeletePhotoModal = (deletePhotoId: string): void => {
+  //   setPhotoId(deletePhotoId);
+  //   setConfirmPhotoDeleteModal(true);
+  // };
 
-  const handleCloseModal = (): void => {
-    setConfirmPhotoDeleteModal(false);
-  };
+  // const handleCloseModal = (): void => {
+  //   setConfirmPhotoDeleteModal(false);
+  // };
 
-  const handleDeletePhoto = async (): Promise<void> => {
-    try {
-      await photoService.deletePhotoById(photoId);
+  // const handleDeletePhoto = async (): Promise<void> => {
+  //   try {
+  //     await photoService.deletePhotoById(photoId);
 
-      handleGetUserPhotos();
-      setConfirmPhotoDeleteModal(false);
-      toast.success('Photo deleted.');
-    } catch (error) {
-      toast.error((error as Error).message);
-    }
-  };
+  //     handleGetUserPhotos();
+  //     setConfirmPhotoDeleteModal(false);
+  //     toast.success('Photo deleted.');
+  //   } catch (error) {
+  //     toast.error((error as Error).message);
+  //   }
+  // };
 
   const PhotosMemo = useMemo(
     () =>
       photos && photos.data && photos.data.length > 0 ? (
         <section className={styles.UserPhotos}>
           {photos.data.map((photo) => (
-            <div className={styles.UserPhoto}>
+            <div key={photo.id} className={styles.UserPhoto}>
               {/* <button
                 type="button"
                 className={styles.UserPhotoDeleteIcon}
@@ -105,16 +103,16 @@ function UserIndex(): JSX.Element {
     [photos],
   );
 
-  const ConfirmDeleteModalFooter = memo(() => (
-    <>
-      <Button type="button" size="small" secondary onClick={handleCloseModal}>
-        Cancel
-      </Button>
-      <Button type="button" size="small" onClick={handleDeletePhoto}>
-        Delete
-      </Button>
-    </>
-  ));
+  // const ConfirmDeleteModalFooter = memo(() => (
+  //   <>
+  //     <Button type="button" size="small" secondary onClick={handleCloseModal}>
+  //       Cancel
+  //     </Button>
+  //     <Button type="button" size="small" onClick={handleDeletePhoto}>
+  //       Delete
+  //     </Button>
+  //   </>
+  // ));
 
   const handleLoadMorePhotos = (): void => {
     setPageOptions({ page: pageOptions.page + 1 });
@@ -159,14 +157,14 @@ function UserIndex(): JSX.Element {
         <Footer />
       </section>
 
-      <Modal
+      {/* <Modal
         title="Delete photo"
         modalIsVisible={confirmPhotoDeleteModal}
         setModalIsVisible={setConfirmPhotoDeleteModal}
         footer={<ConfirmDeleteModalFooter />}
       >
         <p>Are you sure that you want to delete that photo?</p>
-      </Modal>
+      </Modal> */}
     </>
   );
 }

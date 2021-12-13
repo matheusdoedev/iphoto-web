@@ -9,7 +9,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "start": "next start -o $PORT"
+    "start": "next start -p $PORT"
   },
   "dependencies": {
     "axios": "^0.24.0",
@@ -22,6 +22,7 @@
     "react-icons": "^4.3.1",
     "react-toastify": "^8.1.0",
     "sass": "^1.44.0",
+    "sharp": "^0.29.3",
     "yup": "^0.32.11"
   },
   "devDependencies": {
