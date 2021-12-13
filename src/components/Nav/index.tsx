@@ -52,11 +52,9 @@ function Nav({ internalPage, userAvatarData }: INavProps): JSX.Element {
         </>
       ) : (
         <li className="Navbar__menu__item">
-          <Link href="/#howitworks" passHref>
-            <AnchorLink className={styles.NavbarMenuLink}>
-              How it works
-            </AnchorLink>
-          </Link>
+          <AnchorLink href="/#howitworks" className={styles.NavbarMenuLink}>
+            How it works
+          </AnchorLink>
         </li>
       ),
     [handleLogout, internalPage, userAvatarData],

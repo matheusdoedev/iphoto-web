@@ -11,7 +11,7 @@ interface IAvatarProps {
 
 function Avatar({ userName, userAvatar }: IAvatarProps): JSX.Element {
   return (
-    <AnchorLink className={styles.Avatar}>
+    <AnchorLink href="/user" className={styles.Avatar}>
       {userName}
       <Image
         src={userAvatar}

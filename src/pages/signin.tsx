@@ -1,6 +1,5 @@
 import { FormEvent, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { toast } from 'react-toastify';
@@ -78,11 +77,10 @@ function SignIn(): JSX.Element {
               Sign in
             </Button>
             <span className={styles.SignInFormOr}>or</span>
-            <Link href="/signup" passHref>
-              <AnchorLink className={styles.SignUpLink}>
-                Create a new account
-              </AnchorLink>
-            </Link>
+
+            <AnchorLink href="/signup" className={styles.SignUpLink}>
+              Create a new account
+            </AnchorLink>
           </form>
         </section>
       </section>
