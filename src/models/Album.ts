@@ -7,3 +7,7 @@ export interface IAlbum extends IDatabaseFields {
   user: IUser;
   photos: IPhoto[];
 }
+
+export interface ICreateAlbumDto {
+  title: string;
+}
