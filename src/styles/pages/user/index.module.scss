@@ -19,7 +19,7 @@
   grid-template-columns: 4fr 1fr 1fr;
   align-items: center;
   gap: $sm;
-  margin: $lg 0 $lg 0;
+  margin: $lg 0 $md 0;
 
   @media (max-width: $small) {
     display: flex;
@@ -38,15 +38,33 @@
   }
 }
 
+.UserTabNavigation {
+}
+
+.UserTabMenu {
+  display: flex;
+}
+
+.UserTabMenuButton {
+  border: none;
+  border-bottom: 3px solid $gray;
+  background: none;
+  padding: 0 $sm $xs $sm;
+
+  &:hover {
+    border-bottom: 3px solid cyan !important;
+    color: cyan !important;
+  }
+}
+
 .UserPhotos {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: $sm;
-  margin-top: $xl;
+  margin-top: $lg;
   margin-bottom: $xl;
 
   @media (max-width: $medium) {
-    margin-top: $lg;
     margin-bottom: $lg;
     grid-template-columns: 1fr 1fr;
   }
@@ -87,5 +105,6 @@
   align-items: center;
   text-align: center;
   width: 100%;
+  margin-top: $lg;
   padding-bottom: 48rem;
 }

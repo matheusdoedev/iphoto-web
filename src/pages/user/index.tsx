@@ -1,15 +1,19 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { toast } from 'react-toastify';
+import { FiPlus, FiTrash2 } from 'react-icons/fi';
 
-import { Button, Footer, Header, Seo } from '~/components';
+import { Button, Footer, Header, Input, Modal, Seo } from '~/components';
 import { useAuthGuard } from '~/hooks';
 import { IPhoto } from '~/models/Photo';
 import { IPageOptionsRequest, IPagination } from '~/models/Common';
 import { PhotoService } from '~/services';
 
 import styles from '~/styles/pages/user/index.module.scss';
+
+type TabMenuStatus = 'photos' | 'albums';
 
 function UserIndex(): JSX.Element {
   useAuthGuard();
@@ -24,11 +28,12 @@ function UserIndex(): JSX.Element {
   const [pageOptions, setPageOptions] = useState<IPageOptionsRequest>({
     page: 1,
   });
-  // const [confirmPhotoDeleteModal, setConfirmPhotoDeleteModal] = useState(false);
-  // const [photoId, setPhotoId] = useState('');
+  const [confirmPhotoDeleteModal, setConfirmPhotoDeleteModal] = useState(false);
+  const [photoId, setPhotoId] = useState('');
+  const [tabMenuStatus, setTabMenuStatus] = useState<TabMenuStatus>('photos');
 
   const photoService = useMemo(() => new PhotoService(), []);
-  // const router = useRouter();
+  const router = useRouter();
 
   const handleGetUserPhotos = useCallback(async (): Promise<void> => {
     try {
@@ -42,34 +47,38 @@ function UserIndex(): JSX.Element {
     }
   }, [pageOptions, photoService]);
 
-  // const handleNavigateToCreateAlbum = (): void => {
-  //   router.push('/user/create-album');
-  // };
+  const handleNavigateToCreateAlbum = (): void => {
+    router.push('/user/create-album');
+  };
 
-  // const handleNavigateToUploadPhoto = (): void => {
-  //   router.push('/user/upload-photo');
-  // };
+  const handleNavigateToUploadPhoto = (): void => {
+    router.push('/user/upload-photo');
+  };
 
-  // const handleOpenDeletePhotoModal = (deletePhotoId: string): void => {
-  //   setPhotoId(deletePhotoId);
-  //   setConfirmPhotoDeleteModal(true);
-  // };
+  const handleOpenDeletePhotoModal = (deletePhotoId: string): void => {
+    setPhotoId(deletePhotoId);
+    setConfirmPhotoDeleteModal(true);
+  };
 
-  // const handleCloseModal = (): void => {
-  //   setConfirmPhotoDeleteModal(false);
-  // };
+  const handleCloseModal = (): void => {
+    setConfirmPhotoDeleteModal(false);
+  };
 
-  // const handleDeletePhoto = async (): Promise<void> => {
-  //   try {
-  //     await photoService.deletePhotoById(photoId);
+  const handleDeletePhoto = async (): Promise<void> => {
+    try {
+      await photoService.deletePhotoById(photoId);
 
-  //     handleGetUserPhotos();
-  //     setConfirmPhotoDeleteModal(false);
-  //     toast.success('Photo deleted.');
-  //   } catch (error) {
-  //     toast.error((error as Error).message);
-  //   }
-  // };
+      handleGetUserPhotos();
+      setConfirmPhotoDeleteModal(false);
+      toast.success('Photo deleted.');
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
+  };
+
+  const handleSwapTabMenu = (newStatus: TabMenuStatus): void => {
+    setTabMenuStatus(newStatus);
+  };
 
   const PhotosMemo = useMemo(
     () =>
@@ -77,7 +86,7 @@ function UserIndex(): JSX.Element {
         <section className={styles.UserPhotos}>
           {photos.data.map((photo) => (
             <div key={photo.id} className={styles.UserPhoto}>
-              {/* <button
+              <button
                 type="button"
                 className={styles.UserPhotoDeleteIcon}
                 data-bs-toggle="modal"
@@ -85,7 +94,7 @@ function UserIndex(): JSX.Element {
                 onClick={() => handleOpenDeletePhotoModal(photo.id)}
               >
                 <FiTrash2 size={24} color="#fff7ed" />
-              </button> */}
+              </button>
               <Image
                 src={photo.url}
                 alt={photo.title}
@@ -103,24 +112,26 @@ function UserIndex(): JSX.Element {
     [photos],
   );
 
-  // const ConfirmDeleteModalFooter = memo(() => (
-  //   <>
-  //     <Button type="button" size="small" secondary onClick={handleCloseModal}>
-  //       Cancel
-  //     </Button>
-  //     <Button type="button" size="small" onClick={handleDeletePhoto}>
-  //       Delete
-  //     </Button>
-  //   </>
-  // ));
+  const ConfirmDeleteModalFooter = memo(() => (
+    <>
+      <Button type="button" size="small" secondary onClick={handleCloseModal}>
+        Cancel
+      </Button>
+      <Button type="button" size="small" onClick={handleDeletePhoto}>
+        Delete
+      </Button>
+    </>
+  ));
 
   const handleLoadMorePhotos = (): void => {
     setPageOptions({ page: pageOptions.page + 1 });
   };
 
   useEffect(() => {
-    handleGetUserPhotos();
-  }, [handleGetUserPhotos]);
+    if (tabMenuStatus === 'photos') {
+      handleGetUserPhotos();
+    }
+  }, [handleGetUserPhotos, tabMenuStatus]);
 
   return (
     <>
@@ -128,7 +139,7 @@ function UserIndex(): JSX.Element {
       <section className={styles.UserIndex}>
         <div className={styles.UserIndexContainer}>
           <Header internalPage />
-          {/* <section className={styles.UserSearchBar}>
+          <section className={styles.UserSearchBar}>
             <Input
               name="search"
               placeholder="Search photos and albums by name"
@@ -136,14 +147,46 @@ function UserIndex(): JSX.Element {
               containerStyle={styles.UserSearchInput}
             />
             <Button size="fullSize" onClick={handleNavigateToUploadPhoto}>
-              <FiPlus size={16} color="FFF7ED" />
+              <FiPlus size={16} color="#FFF7ED" />
               Upload photo
             </Button>
             <Button size="fullSize" onClick={handleNavigateToCreateAlbum}>
-              <FiPlus size={16} color="FFF7ED" />
+              <FiPlus size={16} color="#FFF7ED" />
               Add new album
             </Button>
-          </section> */}
+          </section>
+          <nav className={styles.UserTabNavigation}>
+            <ul className={styles.UserTabMenu}>
+              <li>
+                <button
+                  className={styles.UserTabMenuButton}
+                  style={{
+                    borderBottom:
+                      tabMenuStatus === 'photos' ? '3px solid #025d8f' : '',
+                    color: tabMenuStatus === 'photos' ? '#025d8f' : '',
+                  }}
+                  type="button"
+                  onClick={() => handleSwapTabMenu('photos')}
+                >
+                  Photos
+                </button>
+              </li>
+              <li>
+                <button
+                  className={styles.UserTabMenuButton}
+                  style={{
+                    borderBottom:
+                      tabMenuStatus === 'albums' ? '3px solid #025d8f' : '',
+                    color: tabMenuStatus === 'albums' ? '#025d8f' : '',
+                  }}
+                  type="button"
+                  onClick={() => handleSwapTabMenu('albums')}
+                >
+                  Albums
+                </button>
+              </li>
+            </ul>
+          </nav>
           {PhotosMemo}
           {Number(photos.page) !== photos.lastPage && (
             <Button
@@ -157,14 +200,14 @@ function UserIndex(): JSX.Element {
         <Footer />
       </section>
 
-      {/* <Modal
+      <Modal
         title="Delete photo"
         modalIsVisible={confirmPhotoDeleteModal}
         setModalIsVisible={setConfirmPhotoDeleteModal}
         footer={<ConfirmDeleteModalFooter />}
       >
         <p>Are you sure that you want to delete that photo?</p>
-      </Modal> */}
+      </Modal>
     </>
   );
 }
