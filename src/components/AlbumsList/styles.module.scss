@@ -1,0 +1,70 @@
+@import '~/styles/settings/colors';
+@import '~/styles/settings/gaps';
+@import '~/styles/tools/breakpoints';
+@import '~/styles/objects/container';
+
+.UserPhotos {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: $sm;
+  margin-top: $lg;
+  margin-bottom: $xl;
+
+  @media (max-width: $medium) {
+    margin-bottom: $lg;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: $small) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.LoadMoreButton {
+  margin-top: -64px;
+  margin-bottom: $xl;
+  align-self: center;
+
+  @media (max-width: $medium) {
+    margin-bottom: $lg;
+  }
+}
+
+.UserPhoto {
+  position: relative;
+}
+
+.UserPhotoDeleteIcon {
+  position: absolute;
+  top: $xs;
+  right: $xs;
+  padding: 0.4rem;
+  background: $primary-color;
+  border-radius: 4px;
+  border: none;
+  z-index: 3;
+}
+
+.UserAlbumTitle {
+  position: absolute;
+  bottom: $xs;
+  left: $xs;
+  color: $white;
+}
+
+.UserPhotoEditIcon {
+  @extend .UserPhotoDeleteIcon;
+
+  top: $xs;
+  right: calc($xs * 2 + $sm);
+}
+
+.NoPhotosFound {
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin-top: $lg;
+  padding-bottom: 48rem;
+}
