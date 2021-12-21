@@ -13,6 +13,10 @@ class AlbumService {
     return api.post(`${this.baseUrl}`, data);
   }
 
+  getAllUserAlbums(): AxiosPromise<IAlbum[]> {
+    return api.get(`${this.baseUrl}/user/all`);
+  }
+
   getUserAlbums(
     { page }: IPageOptionsRequest = {
       page: 1,
