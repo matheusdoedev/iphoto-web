@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { FormEvent, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
@@ -10,9 +10,10 @@ import { toast } from 'react-toastify';
 import { Button, Input, InputMedia, Select, Seo } from '~/components';
 import { useAuthGuard } from '~/hooks';
 import { InternalPageLayout } from '~/layouts';
+import { IAlbum } from '~/models/Album';
 import { IMedia, UpdatedLogo } from '~/models/Common';
 import { IUpdatePhotoDto, IUpdatePhotoImageDto } from '~/models/Photo';
-import { PhotoService } from '~/services';
+import { AlbumService, PhotoService } from '~/services';
 import { handleYupValidationError } from '~/utils/functions';
 
 import styles from '~/styles/pages/user/upload-photo.module.scss';
@@ -20,13 +21,25 @@ import styles from '~/styles/pages/user/upload-photo.module.scss';
 function UploadPhoto(): JSX.Element {
   useAuthGuard();
 
+  const [albums, setAlbums] = useState<IAlbum[]>([]);
   const [formData, setFormData] = useState<IUpdatePhotoDto>(
     {} as IUpdatePhotoDto,
   );
   const [uploadPhoto, setUploadPhoto] = useState<UpdatedLogo>();
 
   const photoService = new PhotoService();
+  const albumService = useMemo(() => new AlbumService(), []);
   const router = useRouter();
+
+  const handleGetUserAlbums = useCallback(async (): Promise<void> => {
+    try {
+      const data = await albumService.getAllUserAlbums().then((r) => r.data);
+
+      setAlbums(data);
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
+  }, [albumService]);
 
   const handleCreatePhoto = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
@@ -65,6 +78,18 @@ function UploadPhoto(): JSX.Element {
   const handleChangeUploadPhoto = (fileObject: IMedia): void => {
     setUploadPhoto(fileObject);
   };
+
+  const AlbumsOptionsMemo = useMemo(
+    () =>
+      albums
+        ? albums.map((album) => ({ label: album.title, value: album.id }))
+        : [],
+    [albums],
+  );
+
+  useEffect(() => {
+    handleGetUserAlbums();
+  }, [handleGetUserAlbums]);
 
   return (
     <>
@@ -112,7 +137,7 @@ function UploadPhoto(): JSX.Element {
             name="album"
             label="Album"
             id="album"
-            options={[]}
+            options={AlbumsOptionsMemo}
             value={formData.albumId}
             onChange={(e) =>
               setFormData({ ...formData, albumId: e.target.value })
