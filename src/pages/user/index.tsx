@@ -9,9 +9,10 @@ import { Button, Footer, Header, Input, Modal, Seo } from '~/components';
 import { useAuthGuard } from '~/hooks';
 import { IPhoto } from '~/models/Photo';
 import { IPageOptionsRequest, IPagination } from '~/models/Common';
-import { PhotoService } from '~/services';
+import { AlbumService, PhotoService } from '~/services';
 
 import styles from '~/styles/pages/user/index.module.scss';
+import { IAlbum } from '~/models/Album';
 
 type TabMenuStatus = 'photos' | 'albums';
 
@@ -25,14 +26,24 @@ function UserIndex(): JSX.Element {
     perPage: 1,
     total: '0',
   });
+  const [albums, setAlbums] = useState<IPagination<IAlbum[]>>({
+    data: [],
+    lastPage: 0,
+    page: 1,
+    perPage: 1,
+    total: '0',
+  });
   const [pageOptions, setPageOptions] = useState<IPageOptionsRequest>({
     page: 1,
   });
   const [confirmPhotoDeleteModal, setConfirmPhotoDeleteModal] = useState(false);
+  const [confirmAlbumDeleteModal, setConfirmAlbumDeleteModal] = useState(false);
   const [photoId, setPhotoId] = useState('');
+  const [albumId, setAlbumId] = useState('');
   const [tabMenuStatus, setTabMenuStatus] = useState<TabMenuStatus>('photos');
 
   const photoService = useMemo(() => new PhotoService(), []);
+  const albumService = useMemo(() => new AlbumService(), []);
   const router = useRouter();
 
   const handleGetUserPhotos = useCallback(async (): Promise<void> => {
@@ -47,6 +58,18 @@ function UserIndex(): JSX.Element {
     }
   }, [pageOptions, photoService]);
 
+  const handleGetUserAlbums = useCallback(async (): Promise<void> => {
+    try {
+      const response = await albumService
+        .getUserAlbums(pageOptions)
+        .then((r) => r.data);
+
+      setAlbums(response);
+    } catch (error) {
+      toast.error('Error on load albums.');
+    }
+  }, [albumService, pageOptions]);
+
   const handleNavigateToCreateAlbum = (): void => {
     router.push('/user/create-album');
   };
@@ -58,6 +81,11 @@ function UserIndex(): JSX.Element {
   const handleOpenDeletePhotoModal = (deletePhotoId: string): void => {
     setPhotoId(deletePhotoId);
     setConfirmPhotoDeleteModal(true);
+  };
+
+  const handleOpenDeleteAlbumModal = (deleteAlbumId: string): void => {
+    setAlbumId(deleteAlbumId);
+    setConfirmAlbumDeleteModal(true);
   };
 
   const handleCloseModal = (): void => {
@@ -76,6 +104,18 @@ function UserIndex(): JSX.Element {
     }
   };
 
+  const handleDeleteAlbum = async (): Promise<void> => {
+    try {
+      await albumService.deleteAlbumById(albumId);
+
+      handleGetUserAlbums();
+      setConfirmAlbumDeleteModal(false);
+      toast.success('Album deleted.');
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
+  };
+
   const handleSwapTabMenu = (newStatus: TabMenuStatus): void => {
     setTabMenuStatus(newStatus);
   };
@@ -85,7 +125,7 @@ function UserIndex(): JSX.Element {
       photos && photos.data && photos.data.length > 0 ? (
         <section className={styles.UserPhotos}>
           {photos.data.map((photo) => (
-            <div key={photo.id} className={styles.UserPhoto}>
+            <article key={photo.id} className={styles.UserPhoto}>
               <button
                 type="button"
                 className={styles.UserPhotoDeleteIcon}
@@ -103,7 +143,7 @@ function UserIndex(): JSX.Element {
                 layout="intrinsic"
                 loading="lazy"
               />
-            </div>
+            </article>
           ))}
         </section>
       ) : (
@@ -112,12 +152,50 @@ function UserIndex(): JSX.Element {
     [photos],
   );
 
+  const AlbumsMemo = useMemo(
+    () =>
+      albums && albums.data && albums.data.length > 0 ? (
+        <section className={styles.UserPhotos}>
+          {albums.data.map((album) => (
+            <article key={album.id} className={styles.UserPhoto}>
+              <button
+                type="button"
+                className={styles.UserPhotoDeleteIcon}
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                onClick={() => handleOpenDeleteAlbumModal(album.id)}
+              >
+                <FiTrash2 size={24} color="#fff7ed" />
+              </button>
+              <Image
+                src="/assets/images/album-mock-cover.jpg"
+                alt={album.title}
+                width={556.4}
+                height={355.5}
+                layout="intrinsic"
+                loading="lazy"
+              />
+              <h2 className={styles.UserAlbumTitle}>{album.title}</h2>
+            </article>
+          ))}
+        </section>
+      ) : (
+        <h2 className={styles.NoPhotosFound}>No albums were found.</h2>
+      ),
+    [albums],
+  );
   const ConfirmDeleteModalFooter = memo(() => (
     <>
       <Button type="button" size="small" secondary onClick={handleCloseModal}>
         Cancel
       </Button>
-      <Button type="button" size="small" onClick={handleDeletePhoto}>
+      <Button
+        type="button"
+        size="small"
+        onClick={
+          tabMenuStatus === 'photos' ? handleDeletePhoto : handleDeleteAlbum
+        }
+      >
         Delete
       </Button>
     </>
@@ -131,7 +209,8 @@ function UserIndex(): JSX.Element {
     if (tabMenuStatus === 'photos') {
       handleGetUserPhotos();
     }
-  }, [handleGetUserPhotos, tabMenuStatus]);
+    handleGetUserAlbums();
+  }, [handleGetUserAlbums, handleGetUserPhotos, tabMenuStatus]);
 
   return (
     <>
@@ -187,14 +266,32 @@ function UserIndex(): JSX.Element {
               </li>
             </ul>
           </nav>
-          {PhotosMemo}
-          {Number(photos.page) !== photos.lastPage && (
-            <Button
-              className={styles.LoadMoreButton}
-              onClick={handleLoadMorePhotos}
-            >
-              Load more photos
-            </Button>
+          {tabMenuStatus === 'photos' ? (
+            <>
+              {PhotosMemo}
+              {Number(photos.page) !== photos.lastPage ||
+                (photos.lastPage !== 1 && (
+                  <Button
+                    className={styles.LoadMoreButton}
+                    onClick={handleLoadMorePhotos}
+                  >
+                    Load more photos
+                  </Button>
+                ))}
+            </>
+          ) : (
+            <>
+              {AlbumsMemo}
+              {Number(albums.page) !== albums.lastPage ||
+                (albums.lastPage !== 1 && (
+                  <Button
+                    className={styles.LoadMoreButton}
+                    onClick={handleLoadMorePhotos}
+                  >
+                    Load more photos
+                  </Button>
+                ))}
+            </>
           )}
         </div>
         <Footer />
@@ -207,6 +304,15 @@ function UserIndex(): JSX.Element {
         footer={<ConfirmDeleteModalFooter />}
       >
         <p>Are you sure that you want to delete that photo?</p>
+      </Modal>
+
+      <Modal
+        title="Delete album"
+        modalIsVisible={confirmAlbumDeleteModal}
+        setModalIsVisible={setConfirmAlbumDeleteModal}
+        footer={<ConfirmDeleteModalFooter />}
+      >
+        <p>Are you sure that you want to delete that album?</p>
       </Modal>
     </>
   );

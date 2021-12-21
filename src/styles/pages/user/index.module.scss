@@ -101,6 +101,13 @@
   z-index: 3;
 }
 
+.UserAlbumTitle {
+  position: absolute;
+  bottom: $xs;
+  left: $xs;
+  color: $white;
+}
+
 .NoPhotosFound {
   align-items: center;
   text-align: center;

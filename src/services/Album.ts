@@ -25,6 +25,10 @@ class AlbumService {
       },
     });
   }
+
+  deleteAlbumById(albumId: string): AxiosPromise<void> {
+    return api.delete(`${this.baseUrl}/${albumId}`);
+  }
 }
 
 export default AlbumService;
