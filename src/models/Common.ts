@@ -21,6 +21,10 @@ export interface IPageOptionsRequest {
   perPage?: number;
 }
 
+export interface IPhotoOptionsRequest extends IPageOptionsRequest {
+  albumId?: string;
+}
+
 export interface IPagination<T> {
   total?: string;
   perPage?: number;

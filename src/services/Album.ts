@@ -30,6 +30,10 @@ class AlbumService {
     });
   }
 
+  getAlbumById(albumId: string): AxiosPromise<IAlbum> {
+    return api.get(`${this.baseUrl}/${albumId}`);
+  }
+
   deleteAlbumById(albumId: string): AxiosPromise<void> {
     return api.delete(`${this.baseUrl}/${albumId}`);
   }

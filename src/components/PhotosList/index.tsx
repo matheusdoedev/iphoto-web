@@ -39,14 +39,17 @@ function PhotosList({ albumId }: IPhotosListProps): JSX.Element {
   const handleGetUserPhotos = useCallback(async (): Promise<void> => {
     try {
       const response = await photoService
-        .getUserPhotos(pageOptions)
+        .getUserPhotos({
+          ...pageOptions,
+          albumId,
+        })
         .then((r) => r.data);
 
       setPhotos(response);
     } catch (error) {
       toast.error((error as Error).message);
     }
-  }, [pageOptions, photoService]);
+  }, [albumId, pageOptions, photoService]);
 
   const handleCloseModal = (): void => {
     setConfirmPhotoDeleteModal(false);

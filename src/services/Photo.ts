@@ -1,7 +1,7 @@
 import { AxiosPromise } from 'axios';
 
 import api from '~/config/api';
-import { IPageOptionsRequest, IPagination } from '~/models/Common';
+import { IPagination, IPhotoOptionsRequest } from '~/models/Common';
 import { IPhoto, IUpdatePhotoDto } from '~/models/Photo';
 
 class PhotoService {
@@ -10,7 +10,7 @@ class PhotoService {
   private perPageDefault = 6;
 
   getUserPhotos(
-    { page }: IPageOptionsRequest = {
+    { page, albumId }: IPhotoOptionsRequest = {
       page: 1,
     },
   ): AxiosPromise<IPagination<IPhoto[]>> {
@@ -18,6 +18,7 @@ class PhotoService {
       params: {
         page,
         perPage: this.perPageDefault,
+        albumId,
       },
     });
   }
