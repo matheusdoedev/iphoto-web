@@ -13,6 +13,10 @@ class AlbumService {
     return api.post(`${this.baseUrl}`, data);
   }
 
+  putEditAlbum(albumId: string, data: ICreateAlbumDto): AxiosPromise<IAlbum> {
+    return api.put(`${this.baseUrl}/${albumId}`, data);
+  }
+
   getAllUserAlbums(): AxiosPromise<IAlbum[]> {
     return api.get(`${this.baseUrl}/user/all`);
   }
