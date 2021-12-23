@@ -22,6 +22,20 @@ class PhotoService {
     });
   }
 
+  getAlbumPhotos(
+    albumId: string,
+    { page }: IPageOptionsRequest = {
+      page: 1,
+    },
+  ): AxiosPromise<IPagination<IPhoto[]>> {
+    return api.get(`${this.baseUrl}/album/${albumId}`, {
+      params: {
+        page,
+        perPage: this.perPageDefault,
+      },
+    });
+  }
+
   getPhotoById(photoId: string): AxiosPromise<IPhoto> {
     return api.get(`${this.baseUrl}/${photoId}`);
   }

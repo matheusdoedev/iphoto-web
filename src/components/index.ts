@@ -1,3 +1,4 @@
+export { default as AlbumsList } from './AlbumsList';
 export { default as AnchorLink } from './AnchorLink';
 export { default as Avatar } from './Avatar';
 export { default as Button } from './Button';
@@ -11,5 +12,6 @@ export { default as InputMedia } from './InputMedia';
 export { default as Intro } from './Intro';
 export { default as Modal } from './Modal';
 export { default as Nav } from './Nav';
+export { default as PhotosList } from './PhotosList';
 export { default as Select } from './Select';
 export { default as Seo } from './Seo';

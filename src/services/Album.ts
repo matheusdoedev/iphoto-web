@@ -13,6 +13,14 @@ class AlbumService {
     return api.post(`${this.baseUrl}`, data);
   }
 
+  putEditAlbum(albumId: string, data: ICreateAlbumDto): AxiosPromise<IAlbum> {
+    return api.put(`${this.baseUrl}/${albumId}`, data);
+  }
+
+  getAllUserAlbums(): AxiosPromise<IAlbum[]> {
+    return api.get(`${this.baseUrl}/user/all`);
+  }
+
   getUserAlbums(
     { page }: IPageOptionsRequest = {
       page: 1,
@@ -24,6 +32,10 @@ class AlbumService {
         perPage: this.perPageDefault,
       },
     });
+  }
+
+  getAlbumById(albumId: string): AxiosPromise<IAlbum> {
+    return api.get(`${this.baseUrl}/${albumId}`);
   }
 
   deleteAlbumById(albumId: string): AxiosPromise<void> {
