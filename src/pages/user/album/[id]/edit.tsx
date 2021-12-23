@@ -6,12 +6,11 @@ import * as Yup from 'yup';
 
 import { Input, Seo, Button, PhotosList } from '~/components';
 import { InternalPageLayout } from '~/layouts';
-
 import { ICreateAlbumDto } from '~/models/Album';
 import { AlbumService } from '~/services';
+import { handleYupValidationError } from '~/utils/functions';
 
 import styles from '~/styles/pages/user/edit-album.module.scss';
-import { handleYupValidationError } from '~/utils/functions';
 
 function EditAlbum(): JSX.Element {
   const [formData, setFormData] = useState<ICreateAlbumDto>({

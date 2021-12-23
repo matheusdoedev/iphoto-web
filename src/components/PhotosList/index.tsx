@@ -12,10 +12,11 @@ import { PhotoService } from '~/services';
 import styles from './styles.module.scss';
 
 interface IPhotosListProps {
+  albumPhotos?: boolean;
   albumId?: string;
 }
 
-function PhotosList({ albumId }: IPhotosListProps): JSX.Element {
+function PhotosList({ albumId, albumPhotos }: IPhotosListProps): JSX.Element {
   const [confirmPhotoDeleteModal, setConfirmPhotoDeleteModal] = useState(false);
   const [photoId, setPhotoId] = useState('');
   const [photos, setPhotos] = useState<IPagination<IPhoto[]>>({
@@ -39,10 +40,23 @@ function PhotosList({ albumId }: IPhotosListProps): JSX.Element {
   const handleGetUserPhotos = useCallback(async (): Promise<void> => {
     try {
       const response = await photoService
-        .getUserPhotos({
-          ...pageOptions,
-          albumId,
-        })
+        .getUserPhotos(pageOptions)
+        .then((r) => r.data);
+
+      setPhotos(response);
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
+  }, [pageOptions, photoService]);
+
+  const handleGetAlbumPhotos = useCallback(async (): Promise<void> => {
+    try {
+      if (!albumId) {
+        return;
+      }
+
+      const response = await photoService
+        .getAlbumPhotos(albumId, pageOptions)
         .then((r) => r.data);
 
       setPhotos(response);
@@ -83,8 +97,11 @@ function PhotosList({ albumId }: IPhotosListProps): JSX.Element {
   ));
 
   useEffect(() => {
+    if (albumId && albumPhotos) {
+      handleGetAlbumPhotos();
+    }
     handleGetUserPhotos();
-  }, [handleGetUserPhotos]);
+  }, [albumId, albumPhotos, handleGetAlbumPhotos, handleGetUserPhotos]);
 
   return photos && photos.data && photos.data.length > 0 ? (
     <section className={styles.UserPhotos}>
@@ -136,6 +153,7 @@ function PhotosList({ albumId }: IPhotosListProps): JSX.Element {
 
 PhotosList.defaultProps = {
   albumId: undefined,
+  albumPhotos: false,
 };
 
 export default PhotosList;
