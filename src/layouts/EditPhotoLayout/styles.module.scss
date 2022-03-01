@@ -1,0 +1,40 @@
+@import '~/styles/settings/colors';
+@import '~/styles/settings/gaps';
+
+@import '~/styles/tools/breakpoints';
+
+@import '~/styles/objects/container';
+
+.UploadPhotoForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: $sm;
+  max-width: 417px;
+  width: 100%;
+}
+
+.UploadPhotoField {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0.8rem;
+  margin-bottom: $sm;
+  justify-content: center;
+  border: 1px dashed $black;
+  border-radius: 0.4rem;
+  max-width: 1280px !important;
+  max-height: 720px;
+  width: 100%;
+  height: 100%;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.UploadPhotoImageUploaded {
+  max-width: 1280px;
+  max-height: 720px;
+  width: 100%;
+}

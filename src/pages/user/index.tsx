@@ -8,7 +8,6 @@ import {
   Footer,
   Header,
   Input,
-  Modal,
   Seo,
   PhotosList,
   AlbumsList,

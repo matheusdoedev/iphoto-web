@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo, useEffect, memo } from 'react';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
 
-import { FiTrash2 } from 'react-icons/fi';
+import { FiTrash2, FiEdit } from 'react-icons/fi';
 
 import { Button, Modal } from '~/components';
 import { IPageOptionsRequest, IPagination } from '~/models/Common';
@@ -10,150 +10,164 @@ import { IPhoto } from '~/models/Photo';
 import { PhotoService } from '~/services';
 
 import styles from './styles.module.scss';
+import router from 'next/router';
 
 interface IPhotosListProps {
-  albumPhotos?: boolean;
-  albumId?: string;
+	albumPhotos?: boolean;
+	albumId?: string;
 }
 
 function PhotosList({ albumId, albumPhotos }: IPhotosListProps): JSX.Element {
-  const [confirmPhotoDeleteModal, setConfirmPhotoDeleteModal] = useState(false);
-  const [photoId, setPhotoId] = useState('');
-  const [photos, setPhotos] = useState<IPagination<IPhoto[]>>({
-    data: [],
-    lastPage: 0,
-    page: 1,
-    perPage: 1,
-    total: '0',
-  });
-  const [pageOptions, setPageOptions] = useState<IPageOptionsRequest>({
-    page: 1,
-  });
+	const [confirmPhotoDeleteModal, setConfirmPhotoDeleteModal] = useState(false);
+	const [photoId, setPhotoId] = useState('');
+	const [photos, setPhotos] = useState<IPagination<IPhoto[]>>({
+		data: [],
+		lastPage: 0,
+		page: 1,
+		perPage: 1,
+		total: '0',
+	});
+	const [pageOptions, setPageOptions] = useState<IPageOptionsRequest>({
+		page: 1,
+	});
 
-  const photoService = useMemo(() => new PhotoService(), []);
+	const photoService = useMemo(() => new PhotoService(), []);
 
-  const handleOpenDeletePhotoModal = (deletePhotoId: string): void => {
-    setPhotoId(deletePhotoId);
-    setConfirmPhotoDeleteModal(true);
-  };
+	const handleOpenDeletePhotoModal = (deletePhotoId: string): void => {
+		setPhotoId(deletePhotoId);
+		setConfirmPhotoDeleteModal(true);
+	};
 
-  const handleGetUserPhotos = useCallback(async (): Promise<void> => {
-    try {
-      const response = await photoService
-        .getUserPhotos(pageOptions)
-        .then((r) => r.data);
+	const handleNavigateToEditPhoto = (photoId: string): void => {
+		router.push(`/user/photo/${photoId}/edit`)
+	}
 
-      setPhotos(response);
-    } catch (error) {
-      toast.error((error as Error).message);
-    }
-  }, [pageOptions, photoService]);
+	const handleGetUserPhotos = useCallback(async (): Promise<void> => {
+		try {
+			const response = await photoService
+				.getUserPhotos(pageOptions)
+				.then((r) => r.data);
 
-  const handleGetAlbumPhotos = useCallback(async (): Promise<void> => {
-    try {
-      if (!albumId) {
-        return;
-      }
+			setPhotos(response);
+		} catch (error) {
+			toast.error((error as Error).message);
+		}
+	}, [pageOptions, photoService]);
 
-      const response = await photoService
-        .getAlbumPhotos(albumId, pageOptions)
-        .then((r) => r.data);
+	const handleGetAlbumPhotos = useCallback(async (): Promise<void> => {
+		try {
+			if (!albumId) {
+				return;
+			}
 
-      setPhotos(response);
-    } catch (error) {
-      toast.error((error as Error).message);
-    }
-  }, [albumId, pageOptions, photoService]);
+			const response = await photoService
+				.getAlbumPhotos(albumId, pageOptions)
+				.then((r) => r.data);
 
-  const handleCloseModal = (): void => {
-    setConfirmPhotoDeleteModal(false);
-  };
+			setPhotos(response);
+		} catch (error) {
+			toast.error((error as Error).message);
+		}
+	}, [albumId, pageOptions, photoService]);
 
-  const handleDeletePhoto = async (): Promise<void> => {
-    try {
-      await photoService.deletePhotoById(photoId);
+	const handleCloseModal = (): void => {
+		setConfirmPhotoDeleteModal(false);
+	};
 
-      handleGetUserPhotos();
-      setConfirmPhotoDeleteModal(false);
-      toast.success('Photo deleted.');
-    } catch (error) {
-      toast.error((error as Error).message);
-    }
-  };
+	const handleDeletePhoto = async (): Promise<void> => {
+		try {
+			await photoService.deletePhotoById(photoId);
 
-  const handleLoadMorePhotos = (): void => {
-    setPageOptions({ page: pageOptions.page + 1 });
-  };
+			handleGetUserPhotos();
+			setConfirmPhotoDeleteModal(false);
+			toast.success('Photo deleted.');
+		} catch (error) {
+			toast.error((error as Error).message);
+		}
+	};
 
-  const ConfirmDeleteModalFooter = memo(() => (
-    <>
-      <Button type="button" size="small" secondary onClick={handleCloseModal}>
-        Cancel
-      </Button>
-      <Button type="button" size="small" onClick={handleDeletePhoto}>
-        Delete
-      </Button>
-    </>
-  ));
+	const handleLoadMorePhotos = (): void => {
+		setPageOptions({ page: pageOptions.page + 1 });
+	};
 
-  useEffect(() => {
-    if (albumId && albumPhotos) {
-      handleGetAlbumPhotos();
-    }
-    handleGetUserPhotos();
-  }, [albumId, albumPhotos, handleGetAlbumPhotos, handleGetUserPhotos]);
+	const ConfirmDeleteModalFooter = memo(() => (
+		<>
+			<Button type="button" size="small" secondary onClick={handleCloseModal}>
+				Cancel
+			</Button>
+			<Button type="button" size="small" onClick={handleDeletePhoto}>
+				Delete
+			</Button>
+		</>
+	));
 
-  return photos && photos.data && photos.data.length > 0 ? (
-    <section className={styles.UserPhotos}>
-      {photos.data.map((photo) => (
-        <>
-          <article key={photo.id} className={styles.UserPhoto}>
-            <button
-              type="button"
-              className={styles.UserPhotoDeleteIcon}
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-              onClick={() => handleOpenDeletePhotoModal(photo.id)}
-            >
-              <FiTrash2 size={24} color="#fff7ed" />
-            </button>
-            <Image
-              src={photo.url}
-              alt={photo.title}
-              width={556.4}
-              height={355.5}
-              layout="intrinsic"
-              loading="lazy"
-            />
-          </article>
-          {Number(photos.page) !== photos.lastPage ||
-            (photos.lastPage !== 1 && (
-              <Button
-                className={styles.LoadMoreButton}
-                onClick={handleLoadMorePhotos}
-              >
-                Load more photos
-              </Button>
-            ))}
-          <Modal
-            title="Delete photo"
-            modalIsVisible={confirmPhotoDeleteModal}
-            setModalIsVisible={setConfirmPhotoDeleteModal}
-            footer={<ConfirmDeleteModalFooter />}
-          >
-            <p>Are you sure that you want to delete that photo?</p>
-          </Modal>
-        </>
-      ))}
-    </section>
-  ) : (
-    <h2 className={styles.NoPhotosFound}>No photos were found.</h2>
-  );
+	useEffect(() => {
+		if (albumId && albumPhotos) {
+			handleGetAlbumPhotos();
+		}
+		handleGetUserPhotos();
+	}, [albumId, albumPhotos, handleGetAlbumPhotos, handleGetUserPhotos]);
+
+	return photos && photos.data && photos.data.length > 0 ? (
+		<section className={styles.UserPhotos}>
+			{photos.data.map((photo) => (
+				<>
+					<article key={photo.id} className={styles.UserPhoto}>
+						<button
+							type="button"
+							className={styles.UserPhotoEditIcon}
+							data-bs-toggle="modal"
+							data-bs-target="#exampleModal"
+							onClick={() => handleNavigateToEditPhoto(photo.id)}
+						>
+							<FiEdit size={24} color="#fff7ed" />
+						</button>
+						<button
+							type="button"
+							className={styles.UserPhotoDeleteIcon}
+							data-bs-toggle="modal"
+							data-bs-target="#exampleModal"
+							onClick={() => handleOpenDeletePhotoModal(photo.id)}
+						>
+							<FiTrash2 size={24} color="#fff7ed" />
+						</button>
+						<Image
+							src={photo.url}
+							alt={photo.title}
+							width={556.4}
+							height={355.5}
+							layout="intrinsic"
+							loading="lazy"
+						/>
+					</article>
+					{Number(photos.page) !== photos.lastPage ||
+						(photos.lastPage !== 1 && (
+							<Button
+								className={styles.LoadMoreButton}
+								onClick={handleLoadMorePhotos}
+							>
+								Load more photos
+							</Button>
+						))}
+					<Modal
+						title="Delete photo"
+						modalIsVisible={confirmPhotoDeleteModal}
+						setModalIsVisible={setConfirmPhotoDeleteModal}
+						footer={<ConfirmDeleteModalFooter />}
+					>
+						<p>Are you sure that you want to delete that photo?</p>
+					</Modal>
+				</>
+			))}
+		</section>
+	) : (
+		<h2 className={styles.NoPhotosFound}>No photos were found.</h2>
+	);
 }
 
 PhotosList.defaultProps = {
-  albumId: undefined,
-  albumPhotos: false,
+	albumId: undefined,
+	albumPhotos: false,
 };
 
 export default PhotosList;
